@@ -137,6 +137,8 @@ class OperatorTable(QGridLayout):
         self.update_needs()
         if len(self.needs) != 0:
             name = self.nameInput.text().lower()
+            if name not in self.total:
+                self.total[name] = {}
             self.total[name].update(self.needs)
         self.nameInput.setText("")
         self.check_name()
