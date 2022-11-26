@@ -233,11 +233,14 @@ class OperatorTable(QGridLayout):
                 self.edits[i][a].setDisabled(banned)
                 if banned: self.edits[i][a].setValue(0)
         self.check_skills()
+        self.check_levels()
         self.update_needs()
 
     def check_levels(self):
         if self.edits[1][0].value() == self.edits[0][0].value():
             self.edits[1][1].setMinimum(self.edits[0][1].value())
+        else:
+            self.edits[1][1].setMinimum(1)
         self.update_needs()
 
     def check_skills(self):

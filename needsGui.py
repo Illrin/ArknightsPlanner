@@ -62,7 +62,7 @@ class NeedsRow(QGroupBox):
         for id in needs:
             button = MaterialButton(self, id, 0, height-40, height-40, **kwargs)
             label = QLabel()
-            label.setText(str(int(inv.depot[id])) + "\n(" + str(int(inv.depot[id]-needs[id])) + ")")
+            label.setText(str(int(needs[id])) + '\n(' + str(int(inv.depot[id]-needs[id])) + ")")
             label.setAlignment(Qt.AlignCenter)
             materialLayout = QVBoxLayout()
             materialLayout.addWidget(button)
@@ -78,21 +78,32 @@ class NeedsRow(QGroupBox):
 
     def reset_amounts(self):
         for id in self.buttons:
-            self.buttons[id][1].setText(str(int(self.inv.depot[id])) + "\n(" + str(int(self.inv.depot[id]-self.needs[id])) + ")")
+            self.buttons[id][0].amount = self.inv.depot[id]
+            self.buttons[id][1].setText(str(int(self.needs[id])) + "\n(" + str(int(self.inv.depot[id]-self.needs[id])) + ")")
+            if self.inv.depot[id]-self.needs[id] < 0:
+                self.buttons[id][1].setStyleSheet("color: red;")
+            else:
+                self.buttons[id][1].setStyleSheet("color: black;")
+        self.setReady()
 
     def set_amount(self, amnt: int, id):
         self.inv.depot[id] = amnt
-        tickets = {"2004": 2000, "2003": 1000, "2002": 400, "2001": 200}
-        for id in tickets.keys():
-            self.inv.depot["1000"] += tickets[id] * self.inv.depot[id]
+        self.root.updateMaterials()
         self.root.resetNeeds()
+        self.setReady()
+
+    def setReady(self):
+        availabilty = {-1: "Not Ready", 0: "Craftable", 1: "Ready"}
+        self.ready = self.checkReady()
+        self.craftableLabel.setText(availabilty[self.ready])
+        self.craftButton.setDisabled(self.ready < 0)
 
     def checkReady(self):
         dupe = copy.deepcopy(self.inv.depot)
         needCrafts = False
         for id, amnt in self.needs.items():
             if id == "1000":
-                if not self.inv.craft(dupe, id, False, False, amnt):
+                if not self.inv.craft(dupe, id, False, True, amnt):
                     return -1
                 return 1
             if dupe[id] >= amnt:

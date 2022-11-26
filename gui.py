@@ -1,4 +1,6 @@
 # importing libraries
+import copy
+
 from PyQt5.QtMultimedia import QSoundEffect
 from PyQt5.QtGui import *
 from depotGui import *
@@ -37,6 +39,7 @@ class Window(QMainWindow):
             pass
         self.totals = {}
         self.breakdown = {}
+        self.baseRequired = {}
         self.isFiltered = False
 
         self.StageComponents()
@@ -323,7 +326,7 @@ class Window(QMainWindow):
         self.farming.hide()
         self.stages.hide()
 
-        if screen == 0: self.updateMaterials()
+        self.updateMaterials()
         self.updateTotals()
         if screen == 2: self.resetNeeds()
         if screen == 3: self.farm.update_vals()
@@ -390,13 +393,18 @@ class Window(QMainWindow):
             self.totals["2001"] = ceil(remain / 200)
         self.breakdown = {}
         toBreakdown = copy.deepcopy(self.totals)
-        for i in self.inventory.depot:
-            if i not in toBreakdown:
-                toBreakdown[i] = -self.inventory.depot[i]
-            else:
-                toBreakdown[i] -= self.inventory.depot[i]
+        depot = copy.deepcopy(self.inventory.depot)
+        self.baseRequired = copy.deepcopy(toBreakdown)
+        for i in self.baseRequired:
+            self.baseRequired[i] = max(0, self.baseRequired[i] - depot[i])
         while len(toBreakdown.keys()) > 0:
             item, amnt = toBreakdown.popitem()
+            if depot[item] >= amnt:
+                depot[item] -= amnt
+                amnt = 0
+            else:
+                amnt -= depot[item]
+                depot[item] = 0
             if item in recipes:
                 for k,v in recipes[item].items():
                     if k in toBreakdown:
@@ -458,7 +466,7 @@ class Window(QMainWindow):
     def refreshNeeds(self, ids = None):
         if ids is None: ids = self.rows
         for row in ids:
-            self.rows[row].updateTotals(self.totals.get(row,0), self.breakdown.get(row,0))
+            self.rows[row].updateTotals(self.baseRequired.get(row,0), self.breakdown.get(row,0))
 
     def filterDepot(self, name: str, breakdown = False):
         id = reverse_ids.get(name.lower(), None)

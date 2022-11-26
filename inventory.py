@@ -36,7 +36,7 @@ class Depot:
         depot_file = io.open("Data/depot.json", 'w')
         json.dump(self.depot, depot_file)
 
-    def upgrade(self, amnt):
+    def upgrade(self, amnt, sim=False):
         dupe = copy.deepcopy(self.depot)
         tickets = ["2004", "2003", "2002", "2001"]
         exps = [2000, 1000, 400, 200]
@@ -66,7 +66,7 @@ class Depot:
                 amnt -= exps[i]
             i -= 1
         if amnt <= 0:
-            self.depot.update(dupe)
+            if not sim: self.depot.update(dupe)
             return True
         return False
 
@@ -80,7 +80,7 @@ class Depot:
         :return: operation success/failure
         """
         if craft_id == "1000":
-            return self.upgrade(amnt)
+            return self.upgrade(amnt, simulate)
         dupe = copy.deepcopy(inv)
         to_deduct = recipes.get(craft_id, None)
         if to_deduct is None:

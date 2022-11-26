@@ -71,11 +71,11 @@ class FarmingGroup(QGroupBox):
         toAdd = QHBoxLayout()
         for id in self.drops:
             box = QSpinBox()
+            box.setMaximum(999999999)
             box.setValue(self.inv[id])
             box.setButtonSymbols(QAbstractSpinBox.NoButtons)
             box.setAlignment(Qt.AlignCenter)
             box.setMaximumWidth(79)
-            box.setMaximum(999999999)
             box.valueChanged.connect(lambda: self.set_amount(box.value(), id))
             button = MaterialButton(self, id, self.inv[id], 79, 79)
             self.mats[id] = [button, box]

@@ -120,6 +120,6 @@ class MaterialRow(QGroupBox):
             self.baseNeed = base
         if total is not None:
             self.totalNeed = total
-        baseRequired = max(int(self.baseNeed - self.amount), 0)
-        totalRequired = max(int(self.totalNeed - self.amount), 0)
+        baseRequired = max(int(self.baseNeed), 0)
+        totalRequired = max(int(self.totalNeed), 0)
         self.needText.setText("Needed: " + str(baseRequired) + "\nNeeded Including Crafts: " + str(totalRequired))
