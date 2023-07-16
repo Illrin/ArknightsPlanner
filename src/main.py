@@ -267,6 +267,7 @@ class Ui(QMainWindow):
     
     def changeMenu(self, screen):
         self.stack.setCurrentIndex(screen)
+        self.inventory.save()
         if screen == 0: 
             self.resetTotals()
             self.resetBreakdown()

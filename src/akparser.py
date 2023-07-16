@@ -36,7 +36,7 @@ def loadCharacters():
         name = unit['appellation']
         if unit['nationId'] is None and unit['groupId'] is None and unit['teamId'] is None:
             continue
-        rarity = unit['rarity'] + 1
+        rarity = int(unit['rarity'][-1])
         jobtrans = {
             'tank': 'defender',
             'warrior': 'guard',

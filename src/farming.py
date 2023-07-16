@@ -76,6 +76,7 @@ class FarmBox(QGroupBox):
         if self.nameEdit.hasFocus() and len(self.nameEdit.text()) >= 2:
             oldName = self.stage if self.stage is not None else ""
             names = process.extract(self.nameEdit.text(), codes.keys(), limit=5)
+            if len(names) == 0: return
             while len(names) > 1:
                 if len(names[0][0]) < len(self.nameEdit.text()):
                     names.pop(0)

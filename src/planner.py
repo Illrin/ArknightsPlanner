@@ -8,10 +8,25 @@ from depot import Depot
 import json
 import os
 import copy
+from pprint import pprint
+import time
 
 from path import resource_path
 
 availabilty = {-1: "Not Ready", 0: "Craftable", 1: "Ready"}
+if os.path.isfile(resource_path('save/needs.json')):
+    planner = {}
+    with open(resource_path('save/needs.json')) as f:
+        planner = json.load(f)
+        empties = []
+        for name, needs in planner.items():
+            charId = needs['id']
+            if len(needs) == 1: empties.append(name)
+        for i in empties:
+            planner.pop(i)
+    with open(resource_path('save/needs.json'), 'w') as f:
+        print('starting', planner.keys())
+        json.dump(planner, f)
 
 class NeedRow(QGroupBox):
     def __init__(self, parent, needs: dict, name, charname, delete, sub, **kwargs):
@@ -73,8 +88,11 @@ class NeedRow(QGroupBox):
     def remove(self):
         with open(resource_path('save/needs.json')) as f:
             planner = json.load(f)
+            print('Before Removing', planner.keys())
+            print('Removing', self.charname, self.name)
             planner[self.charname].pop(self.name)
         with open(resource_path('save/needs.json'), 'w') as f:
+            print('After Removing:', planner.keys())
             json.dump(planner, f)
         self.delete(self.name)
         self.setParent(None)
@@ -137,16 +155,16 @@ class NeedRow(QGroupBox):
 class OperatorNeeds(CollapsibleBox):
     def __init__(self, parent, name: str, width: int, height: int, needs:dict, delete, sub, id:str="", **kwargs):
         super(OperatorNeeds, self).__init__(parent, name, width, height, id, **kwargs)
-        self.layout = QVBoxLayout()
-        self.layout.setAlignment(Qt.AlignTop | Qt.AlignLeft)
-        self.layout.setContentsMargins(0,0,0,0)
-        self.layout.setSpacing(0)
         self.rows = {}
         self.needs = needs
         self.name = name
         self.charId = id
         self.delete = delete
         self.sub = sub
+        self.layout = QVBoxLayout()
+        self.layout.setAlignment(Qt.AlignTop | Qt.AlignLeft)
+        self.layout.setContentsMargins(0,0,0,0)
+        self.layout.setSpacing(0)
         for k, v in sorted(needs.items(), key=lambda x: x[0]):
             row = NeedRow(self, v, k, name, self.removeRow, sub)
             self.layout.addWidget(row)
@@ -164,7 +182,7 @@ class OperatorNeeds(CollapsibleBox):
             row.refreshInventory(inv)
 
     def removeRow(self, key):
-        self.rows.pop(key)
+        row = self.rows.pop(key)
         if len(self.rows) == 0:
             self.deleteLater()
             self.delete(self.charId)
@@ -188,15 +206,22 @@ class PlannerPage(QGroupBox):
         for widget in self.ops.values():
             widget.setParent(None)
             widget.deleteLater()
+        if(hasattr(self, 'spacer')):
+            self.spacer.setParent(None)
+            self.spacer.deleteLater()
         self.ops = {}
         if not os.path.isfile(resource_path('save/needs.json')): return
         with open(resource_path('save/needs.json')) as f:
             planner = json.load(f)
             for name, needs in planner.items():
                 charId = needs.pop('id')
+                if len(needs) == 0: continue
                 row = OperatorNeeds(self, name, 240, 240, needs, self.deleteOp, self.sub, charId)
                 self.layout.addWidget(row)
                 self.ops[charId] = row
+            self.spacer = QLabel()
+            self.spacer.setFixedHeight(240)
+            self.layout.addWidget(self.spacer)
 
     def refreshInventory(self, inv:dict, refreshNeeds=False):
         if refreshNeeds: self.refreshNeeds()
@@ -205,15 +230,6 @@ class PlannerPage(QGroupBox):
 
     def deleteOp(self, charId):
         self.ops.pop(charId)
-        with open(resource_path('save/needs.json')) as f:
-            planner = json.load(f)
-            toRemove = ''
-            for name, needs in planner.items():
-                if needs['id'] == charId:
-                    toRemove = name
-            if toRemove != '': planner.pop(name)
-        with open(resource_path('save/needs.json'), 'w') as f:
-            json.dump(planner, f)
 
 
                 

@@ -13,6 +13,7 @@ from collections import defaultdict
 from depot import ids
 from flowlayout import FlowLayout
 from path import resource_path
+import pprint
 
 with open(resource_path('save/akChars.pkl'), mode='rb') as f:
     characters = pickle.load(f)
@@ -226,7 +227,9 @@ class OpSubmissionBox(QGroupBox):
                 dlg.setWindowTitle("Character Overwritten")
                 dlg.setText("This character already exists on\nthe requirements table.\nOld entries have been overwritten.")
                 dlg.exec()
+            print(allNeeds.keys())
             allNeeds.update(needs)
+            print(allNeeds.keys())
             w = open(resource_path('save/needs.json'), 'w')
             json.dump(allNeeds, w)
             w.close()
@@ -498,7 +501,11 @@ class OpSubmissionBox(QGroupBox):
                   
     def preloadedCharacter(self):
         if self.character is None: return
-        imgs = self.images[self.character.name]
+        try:
+            imgs = self.images[self.character.name]
+        except:
+            self.updateCharacter()
+            return
         widgets = [self.portrait, self.job, self.subjob, self.skills[0], self.skills[1], self.skills[2], self.mods[0][0], self.mods[0][1], self.mods[1][0], self.mods[1][1]]
         sizes = [(240, 240), (120, 120), (80, 80), (120, 120), (120, 120), (120, 120), (80, 80), (120, 120), (80, 80), (120, 120),]
         for i in range(len(imgs)):
@@ -507,9 +514,12 @@ class OpSubmissionBox(QGroupBox):
             elif imgs[i] == 'img/load_fail.png':
                 img = QPixmap(resource_path('img/load_fail.png')).scaled(sizes[i][0], sizes[i][1], transformMode=Qt.SmoothTransformation)
             else:
-                img = QImage()
-                img.loadFromData(imgs[i])
-                img = QPixmap(img)
+                try:
+                    img = QImage()
+                    img.loadFromData(imgs[i])
+                    img = QPixmap(img)
+                except:
+                    img = QPixmap(resource_path('img/load_fail.png'))
                 img = img.scaled(sizes[i][0], sizes[i][1], transformMode=Qt.SmoothTransformation)
             widgets[i].setPixmap(img)
 
