@@ -118,7 +118,7 @@ class Ui(QMainWindow):
         groupDepotLayout.setContentsMargins(0,0,0,0)
         groupDepotLayout.setSpacing(0)
 
-        ends = [0, 2, 6, 9, 12, 17, 37, 61, 86]
+        ends = [0, 2, 6, 9, 12, 17, 41, 65, 90]#change for new materials
         titles = ["Currencies", "Battle Records", "Skill Summaries", "Modules",
                   "Tier 5", "T4/T3 Pairs", "T4-T1 Sets", "Chips"]
         groups = [1, 1, 1, 1, 1, 4, 4, 8]
@@ -145,7 +145,7 @@ class Ui(QMainWindow):
                     self.mats[id].append(button)
                     a += 1
                     b += 1
-                    if a == 62:
+                    if a == 66:#increment for new materials
                         button.setFixedWidth(302)
                         collapseLayout.addLayout(row)
                         row = QHBoxLayout()
