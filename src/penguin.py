@@ -29,10 +29,12 @@ def getStageDrops(stage: str):
     return drops
 
 
-def getPlanner(owned: dict, required: dict, server: str):
+def getPlanner(owned: dict, required: dict, server: str, money=False, exp=False):
     url = "https://planner.penguin-stats.io/plan"
-    req = {"owned": owned, "required": required, "server": server, "input_lang": "en", "output_lang": "en"}
+    req = {"owned": owned, "required": required, "extra_outc": True, "exp_demand": exp, "gold_demand": money, "server": server, "input_lang": "id", "output_lang": "en"}
     response = requests.post(url, json=req)
+    print(response.json())
+    print(server)
     if response.status_code != 200: return None
     return response.json()
 

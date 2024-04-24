@@ -47,10 +47,13 @@ class StageBox(QGroupBox):
 
         clearLayout(self.bodyLayout)
 
-        owned = {names[x]:owned[x] for x in owned.keys() if x in ids[12:61]}
-        required = {names[x]:required[x] for x in required.keys() if x in ids[12:61]}
+        owned = {x:owned[x] for x in owned.keys() if x in ids[12:61]}
+        required = {x:required[x] for x in required.keys() if x in ids[12:61]}
+
+        needsMoney = '4001' in self.totals()
+        needsExp = '2001' in self.totals()
         
-        response = getPlanner(owned, required, server)
+        response = getPlanner(owned, required, server, needsMoney, needsExp)
         if 'error' in response:
             errorLabel = QLabel("An Error Occurred. Please try again later.")
             self.bodyLayout.addWidget(errorLabel)
