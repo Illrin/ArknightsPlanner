@@ -40,10 +40,13 @@ class CollapsibleBox(QWidget):
             if os.path.isfile(resource_path("img/material/" + id + ".png")):
                 image = QPixmap(resource_path("img/material/" + id + ".png"))
             else:
-                data = urllib.request.urlopen('https://raw.githubusercontent.com/Aceship/Arknight-Images/main/avatars/' + id + '.png').read()
-                img = QImage()
-                img.loadFromData(data)
-                image = QPixmap(img)
+                try:
+                    data = urllib.request.urlopen('https://raw.githubusercontent.com/Aceship/Arknight-Images/main/avatars/' + id + '.png').read()
+                    img = QImage()
+                    img.loadFromData(data)
+                    image = QPixmap(img)
+                except:
+                    image = QPixmap('img/load_fail.png')
         image = image.scaled(height, height, transformMode=QtCore.Qt.SmoothTransformation)
         self.avatarLabel.setFixedSize(height, height)
         self.avatarLabel.setPixmap(image)
