@@ -13,7 +13,7 @@ def loadEquipment():
     
     mods = {}
     for equip in equips[0].values():
-        if equip['type'] == 'INITIAL': continue
+        if equip['type'] == 'INITIAL' or equip.get('itemCost', None) is None: continue
         id = equip['uniEquipId']
         icon = equip['typeIcon']
         type = equip['typeName2']
