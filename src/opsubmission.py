@@ -105,7 +105,7 @@ class OpSubmissionBox(QGroupBox):
         
         modLayout = QGridLayout()
         modLayout.setAlignment(Qt.AlignLeft | Qt.AlignBottom)
-        self.mods = [[QLabel(), QLabel()], [QLabel(), QLabel()]]
+        self.mods = [[QLabel(), QLabel()], [QLabel(), QLabel()], [QLabel(), QLabel()]]
         for i in range(len(self.mods)):
             for a in range(len(self.mods[i])):
                 self.mods[i][a].setFixedSize(120, 120)
@@ -116,8 +116,8 @@ class OpSubmissionBox(QGroupBox):
         subBox.setLayout(subLayout)
         layout.addWidget(subBox)
 
-        self.edits = [[QSpinBox(self), QSpinBox(self), QSpinBox(self), QSpinBox(self), QSpinBox(self), QSpinBox(self), QSpinBox(self), QSpinBox(self)],
-                           [QSpinBox(self), QSpinBox(self), QSpinBox(self), QSpinBox(self), QSpinBox(self), QSpinBox(self), QSpinBox(self), QSpinBox(self)]]
+        self.edits = [[QSpinBox(self), QSpinBox(self), QSpinBox(self), QSpinBox(self), QSpinBox(self), QSpinBox(self), QSpinBox(self), QSpinBox(self), QSpinBox(self)],
+                           [QSpinBox(self), QSpinBox(self), QSpinBox(self), QSpinBox(self), QSpinBox(self), QSpinBox(self), QSpinBox(self), QSpinBox(self), QSpinBox(self)]]
 
         for i in range(len(self.edits)):
             for a in range(len(self.edits[i])):
@@ -261,7 +261,7 @@ class OpSubmissionBox(QGroupBox):
                 self.edits[i][2].setMaximum(4)
             else:
                 self.edits[i][2].setMaximum(7)
-            for a in range(3,8):
+            for a in range(3,9):
                 banned = self.edits[i][0].value() != 2 or self.edits[i][2].value() != 7 or self.character.master[a-3][0] == [] if a < 6 \
                          else self.edits[i][0].value() != 2 or self.edits[i][1].value() < mod_unlock[self.character.rarity]\
                          or a - 5 > len(self.character.mods)
@@ -271,7 +271,7 @@ class OpSubmissionBox(QGroupBox):
                     self.edits[i][a].setStyleSheet('background-color: black; color: black')
                 else:
                     self.edits[i][a].setStyleSheet('background-color: rgb(38, 54, 173); color: white')
-        for i in range(3,8):
+        for i in range(3,9):
             self.edits[1][i].setMinimum(self.edits[0][i].value())
 
     def calculateExp(self):
@@ -300,8 +300,8 @@ class OpSubmissionBox(QGroupBox):
 
     def adjustNeeds(self):
         if not hasattr(self, 'prev_start'):
-            self.prev_start = [0,1,1,0,0,0,0,0]
-            self.prev_end =   [0,1,1,0,0,0,0,0]
+            self.prev_start = [0,1,1,0,0,0,0,0,0]
+            self.prev_end =   [0,1,1,0,0,0,0,0,0]
         start = [x.value() for x in self.edits[0]]
         end = [x.value() for x in self.edits[1]]
 
@@ -325,12 +325,13 @@ class OpSubmissionBox(QGroupBox):
         startDelta = np.subtract(start, self.prev_start)
         endDelta = np.subtract(end, self.prev_end)
 
-        names = ['Elite {}', None, 'Skill Lvl {}', 'S1M{}', 'S2M{}', 'S3M{}', 'Mod{} Stage {}','Mod{} Stage{}']
+        names = ['Elite {}', None, 'Skill Lvl {}', 'S1M{}', 'S2M{}', 'S3M{}', 'Mod{} Stage {}','Mod{} Stage{}','Mod{} Stage{}']
         methods = [lambda x: self.character.getElite(x), None, lambda x: self.character.getSkill(x), lambda x, y: self.character.getSpec(x,y), 
-                   lambda x, y: self.character.getSpec(x,y), lambda x,y: self.character.getSpec(x,y), lambda x,y: self.character.getMod(x,y), lambda x,y: self.character.getMod(x,y)]
+                   lambda x, y: self.character.getSpec(x,y), lambda x,y: self.character.getSpec(x,y), 
+                   lambda x,y: self.character.getMod(x,y), lambda x,y: self.character.getMod(x,y), lambda x,y: self.character.getMod(x,y)]
         endChange = []
         startChange = []
-        for i in range(8):
+        for i in range(9):
             if i == 1: continue
             if endDelta[i] == 1:
                 if 2 < i < 6:
@@ -403,7 +404,7 @@ class OpSubmissionBox(QGroupBox):
                 widget.setStyleSheet('background-color: black; color: black')
 
         if self.character is None: return
-        rng = range(3) if self.character.rarity < 4 else range(8)
+        rng = range(3) if self.character.rarity < 4 else range(9)
         for i in rng:
             enabled = True
             if 3 >= i >= 5: enabled = i < len(self.character.skillNames)
@@ -420,7 +421,7 @@ class OpSubmissionBox(QGroupBox):
             self.edits[i][2].setRange(1, 7)
             for a in range(3):
                 self.edits[i][a+3].setRange(0, 3)
-            for a in range(2):
+            for a in range(3):
                 self.edits[i][a+6].setRange(0, 3)
 
         for arr in self.edits:
@@ -481,10 +482,12 @@ class OpSubmissionBox(QGroupBox):
                 'https://raw.githubusercontent.com/Aceship/Arknight-Images/main/equip/type/',
                 'https://raw.githubusercontent.com/Aceship/Arknight-Images/main/equip/icon/',
                 'https://raw.githubusercontent.com/Aceship/Arknight-Images/main/equip/type/',
+                'https://raw.githubusercontent.com/Aceship/Arknight-Images/main/equip/icon/',
+                'https://raw.githubusercontent.com/Aceship/Arknight-Images/main/equip/type/',
                 'https://raw.githubusercontent.com/Aceship/Arknight-Images/main/equip/icon/',]
-        widgets = [self.portrait, self.job, self.subjob, self.skills[0], self.skills[1], self.skills[2], self.mods[0][0], self.mods[0][1], self.mods[1][0], self.mods[1][1]]
-        sizes = [(240, 240), (120, 120), (80, 80), (120, 120), (120, 120), (120, 120), (80, 80), (120, 120), (80, 80), (120, 120),]
-        suffix = ['.png', '.png', '_icon.png', '.png', '.png', '.png', '.png', '.png', '.png', '.png', ]
+        widgets = [self.portrait, self.job, self.subjob, self.skills[0], self.skills[1], self.skills[2], self.mods[0][0], self.mods[0][1], self.mods[1][0], self.mods[1][1], self.mods[2][0], self.mods[2][1]]
+        sizes = [(240, 240), (120, 120), (80, 80), (120, 120), (120, 120), (120, 120), (80, 80), (120, 120), (80, 80), (120, 120), (80, 80), (120, 120),]
+        suffix = ['.png', '.png', '_icon.png', '.png', '.png', '.png', '.png', '.png', '.png', '.png', '.png', '.png',]
         for i in range(len(keys)):
             if keys[i] == '':
                 img = QPixmap()
