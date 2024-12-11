@@ -471,20 +471,20 @@ class OpSubmissionBox(QGroupBox):
         for mod in self.character.mods:
             keys.append(mod.icon)
             keys.append(mod.id)
-        while len(keys) < 10:
+        while len(keys) < 12:
             keys.append('')
-        urls = ['https://raw.githubusercontent.com/Aceship/Arknight-Images/main/avatars/',
-                'https://raw.githubusercontent.com/Aceship/Arknight-Images/main/classes/class_',
-                'https://raw.githubusercontent.com/Aceship/Arknight-Images/main/ui/subclass/sub_',
-                'https://raw.githubusercontent.com/Aceship/Arknight-Images/main/skills/skill_icon_',
-                'https://raw.githubusercontent.com/Aceship/Arknight-Images/main/skills/skill_icon_',
-                'https://raw.githubusercontent.com/Aceship/Arknight-Images/main/skills/skill_icon_',
-                'https://raw.githubusercontent.com/Aceship/Arknight-Images/main/equip/type/',
-                'https://raw.githubusercontent.com/Aceship/Arknight-Images/main/equip/icon/',
-                'https://raw.githubusercontent.com/Aceship/Arknight-Images/main/equip/type/',
-                'https://raw.githubusercontent.com/Aceship/Arknight-Images/main/equip/icon/',
-                'https://raw.githubusercontent.com/Aceship/Arknight-Images/main/equip/type/',
-                'https://raw.githubusercontent.com/Aceship/Arknight-Images/main/equip/icon/',]
+        urls = ['https://raw.githubusercontent.com/Irvan789/Arknight-Images/refs/heads/main/avatars/',
+                'https://raw.githubusercontent.com/Irvan789/Arknight-Images/refs/heads/main/classes/class_',
+                'https://raw.githubusercontent.com/Irvan789/Arknight-Images/refs/heads/main/ui/subclass/sub_',
+                'https://raw.githubusercontent.com/Irvan789/Arknight-Images/refs/heads/main/skills/skill_icon_',
+                'https://raw.githubusercontent.com/Irvan789/Arknight-Images/refs/heads/main/skills/skill_icon_',
+                'https://raw.githubusercontent.com/Irvan789/Arknight-Images/refs/heads/main/skills/skill_icon_',
+                'https://raw.githubusercontent.com/Irvan789/Arknight-Images/refs/heads/main/equip/type/',
+                'https://raw.githubusercontent.com/Irvan789/Arknight-Images/refs/heads/main/equip/icon/',
+                'https://raw.githubusercontent.com/Irvan789/Arknight-Images/refs/heads/main/equip/type/',
+                'https://raw.githubusercontent.com/Irvan789/Arknight-Images/refs/heads/main/equip/icon/',
+                'https://raw.githubusercontent.com/Irvan789/Arknight-Images/refs/heads/main/equip/type/',
+                'https://raw.githubusercontent.com/Irvan789/Arknight-Images/refs/heads/main/equip/icon/',]
         widgets = [self.portrait, self.job, self.subjob, self.skills[0], self.skills[1], self.skills[2], self.mods[0][0], self.mods[0][1], self.mods[1][0], self.mods[1][1], self.mods[2][0], self.mods[2][1]]
         sizes = [(240, 240), (120, 120), (80, 80), (120, 120), (120, 120), (120, 120), (80, 80), (120, 120), (80, 80), (120, 120), (80, 80), (120, 120),]
         suffix = ['.png', '.png', '_icon.png', '.png', '.png', '.png', '.png', '.png', '.png', '.png', '.png', '.png',]
