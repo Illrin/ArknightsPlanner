@@ -22,16 +22,16 @@ def loadCharacter(character):
             keys.append(mod.id)
         while len(keys) < 10:
             keys.append('')
-        urls = ['https://raw.githubusercontent.com/Aceship/Arknight-Images/main/avatars/',
-                'https://raw.githubusercontent.com/Aceship/Arknight-Images/main/classes/class_',
-                'https://raw.githubusercontent.com/Aceship/Arknight-Images/main/ui/subclass/sub_',
-                'https://raw.githubusercontent.com/Aceship/Arknight-Images/main/skills/skill_icon_',
-                'https://raw.githubusercontent.com/Aceship/Arknight-Images/main/skills/skill_icon_',
-                'https://raw.githubusercontent.com/Aceship/Arknight-Images/main/skills/skill_icon_',
-                'https://raw.githubusercontent.com/Aceship/Arknight-Images/main/equip/type/',
-                'https://raw.githubusercontent.com/Aceship/Arknight-Images/main/equip/icon/',
-                'https://raw.githubusercontent.com/Aceship/Arknight-Images/main/equip/type/',
-                'https://raw.githubusercontent.com/Aceship/Arknight-Images/main/equip/icon/',]
+        urls = ['https://raw.githubusercontent.com/puppiizsunniiz/Arknight-Images/main/avatars/',
+                'https://raw.githubusercontent.com/puppiizsunniiz/Arknight-Images/main/classes/class_',
+                'https://raw.githubusercontent.com/puppiizsunniiz/Arknight-Images/main/ui/subclass/sub_',
+                'https://raw.githubusercontent.com/puppiizsunniiz/Arknight-Images/main/skills/skill_icon_',
+                'https://raw.githubusercontent.com/puppiizsunniiz/Arknight-Images/main/skills/skill_icon_',
+                'https://raw.githubusercontent.com/puppiizsunniiz/Arknight-Images/main/skills/skill_icon_',
+                'https://raw.githubusercontent.com/puppiizsunniiz/Arknight-Images/main/equip/type/',
+                'https://raw.githubusercontent.com/puppiizsunniiz/Arknight-Images/main/equip/icon/',
+                'https://raw.githubusercontent.com/puppiizsunniiz/Arknight-Images/main/equip/type/',
+                'https://raw.githubusercontent.com/puppiizsunniiz/Arknight-Images/main/equip/icon/',]
         sizes = [(240, 240), (120, 120), (80, 80), (120, 120), (120, 120), (120, 120), (80, 80), (120, 120), (80, 80), (120, 120),]
         suffix = ['.png', '.png', '_icon.png', '.png', '.png', '.png', '.png', '.png', '.png', '.png', ]
         images = []

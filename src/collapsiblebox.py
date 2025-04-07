@@ -41,7 +41,7 @@ class CollapsibleBox(QWidget):
                 image = QPixmap(resource_path("img/material/" + id + ".png"))
             else:
                 try:
-                    data = urllib.request.urlopen('https://raw.githubusercontent.com/Aceship/Arknight-Images/main/avatars/' + id + '.png').read()
+                    data = urllib.request.urlopen('https://raw.githubusercontent.com/puppiizsunniiz/Arknight-Images/refs/heads/main/avatars/' + id + '.png').read()
                     img = QImage()
                     img.loadFromData(data)
                     image = QPixmap(img)

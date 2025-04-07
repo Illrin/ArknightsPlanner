@@ -8,7 +8,7 @@ import ijson
 from path import resource_path
 
 def loadEquipment():
-    f = urllib.request.urlopen("https://raw.githubusercontent.com/Aceship/AN-EN-Tags/master/json/gamedata/zh_CN/gamedata/excel/uniequip_table.json")
+    f = urllib.request.urlopen("https://raw.githubusercontent.com/PuppiizSunniiz/AN-EN-Tags/refs/heads/main/json/gamedata/ArknightsGameData/zh_CN/gamedata/excel/uniequip_table.json")
     equips = list(ijson.items(f, 'equipDict'))
     
     mods = {}
@@ -30,7 +30,7 @@ def loadEquipment():
 
 def loadCharacters():
     modules = loadEquipment()
-    f = urllib.request.urlopen('https://raw.githubusercontent.com/Aceship/AN-EN-Tags/master/json/gamedata/zh_CN/gamedata/excel/character_table.json')
+    f = urllib.request.urlopen('https://raw.githubusercontent.com/PuppiizSunniiz/AN-EN-Tags/refs/heads/main/json/gamedata/ArknightsGameData/zh_CN/gamedata/excel/character_table.json')
     characters = {}
     for id, unit in ijson.kvitems(f, ''):
         name = unit['appellation']
