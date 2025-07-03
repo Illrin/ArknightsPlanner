@@ -445,7 +445,7 @@ class OpSubmissionBox(QGroupBox):
                 if  casefold == charname.casefold():
                     name = charname
             if name == '':
-                if names[0][1] > 50 and names[0][1] > names[1][1]:
+                if names[0][1] > 50 and len(names) > 1 and names[0][1] > names[1][1]:
                     name = names[0][0]
                 else: return
             self.character = characters[name]
