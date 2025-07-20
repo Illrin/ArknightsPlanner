@@ -32,8 +32,10 @@ def loadCharacters():
     modules = loadEquipment()
     f = urllib.request.urlopen('https://raw.githubusercontent.com/Kengxxiao/ArknightsGameData/refs/heads/master/zh_CN/gamedata/excel/character_table.json')
     characters = {}
+    exceptions = ['Raidian']
     for id, unit in ijson.kvitems(f, ''):
         name = unit['appellation']
+        if name in exceptions: continue
         if unit['nationId'] is None and unit['groupId'] is None and unit['teamId'] is None:
             continue
         rarity = int(unit['rarity'][-1])
@@ -68,7 +70,8 @@ def loadCharacters():
         for i, skill in enumerate(unit['skills']):
             needs = [x['levelUpCost'] for x in skill['levelUpCostCond']]
             for a, level in enumerate(needs):
-                ak.masterSet(i, a, level)
+                if(level is not None):
+                    ak.masterSet(i, a, level)
 
         if id in modules:
             ak.mods = modules[id]
